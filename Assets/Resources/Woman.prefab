@@ -234,6 +234,8 @@ GameObject:
   - component: {fileID: 5609799097304759183}
   - component: {fileID: 5539601416990045413}
   - component: {fileID: 2357561876379194795}
+  - component: {fileID: 2866872835218639232}
+  - component: {fileID: 2113185906616918784}
   m_Layer: 0
   m_Name: Woman
   m_TagString: Untagged
@@ -278,6 +280,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 5539601416990045413}
+  - {fileID: 2113185906616918784}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -309,6 +312,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33918f9174f25d54f9863a5a7834adb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2866872835218639232
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863407118032207789}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 98cdee121d6e440de9fb99a7c24fa0da, type: 3}
+  m_Controller: {fileID: 9100000, guid: e4dbd05a32cb0d44aa01248472368821, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2113185906616918784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863407118032207789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!1 &925909454953116856
 GameObject:
   m_ObjectHideFlags: 0
