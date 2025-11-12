@@ -6,9 +6,9 @@ public class Woman : MonoBehaviourPun
 {
     public float speed = 5f;   
     private Rigidbody rb;
-    Animator animator;
-    private float jumpForce = 5f;
+    private Animator animator;
     private bool jump;
+    private float jumpForce = 5f;
     private float jumpCooldown = 0.25f;
     private bool canJump = true;
     
@@ -21,13 +21,14 @@ public class Woman : MonoBehaviourPun
     
     void Update()
     {
+        //내 포톤뷰 아니면 실행 금지
         if(!photonView.IsMine)
             return;
-        
         Move();
         Jump();
     }
 
+    //이동 메서드
     void Move()
     {
         float h = Input.GetAxisRaw("Horizontal");

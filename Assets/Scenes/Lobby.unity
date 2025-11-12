@@ -553,6 +553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   btn: {fileID: 2120022956}
+  Nickname: hong gil dong
 --- !u!4 &1054401521
 Transform:
   m_ObjectHideFlags: 0
