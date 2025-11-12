@@ -53,6 +53,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"OnJoinedRoom: {PhotonNetwork.CurrentRoom.Name}");
         Debug.Log(PhotonNetwork.IsMasterClient);
+        PhotonNetwork.LoadLevel("Main");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
