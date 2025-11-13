@@ -105,7 +105,7 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
         cachedRooms.Clear();
     }
 
-    // 방에 입장 완료
+    // 내 방에 입장 완료
     public override void OnJoinedRoom()
     {
         Debug.Log($"OnJoinedRoom : {PhotonNetwork.CurrentRoom.Name}");
@@ -132,7 +132,7 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
         EventDispatcher.instance.SendEvent((int)EventEnums.EventType.OnJoinedRoom);
     }
 
-    // 내가 방 안에 있을 때, 다른 플레이어가 들어옴
+    // 다른 플레이어가 내 방에 들어옴
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"[{newPlayer.NickName}]님이 입장 했습니다.");

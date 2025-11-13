@@ -432,7 +432,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 0}
+  m_SizeDelta: {x: 700, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &547771444
 MonoBehaviour:
@@ -2137,7 +2137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1755304747
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2470,7 +2470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3538346328911362870, guid: 282610b4096505946b98adebebc45662, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3538346328911362870, guid: 282610b4096505946b98adebebc45662, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2478,7 +2478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3538346328911362870, guid: 282610b4096505946b98adebebc45662, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3538346328911362870, guid: 282610b4096505946b98adebebc45662, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3215,7 +3215,7 @@ SceneRoots:
   - {fileID: 259113578}
   - {fileID: 955710228}
   - {fileID: 899590992}
-  - {fileID: 1054401521}
   - {fileID: 176656297}
-  - {fileID: 1581534661}
+  - {fileID: 1054401521}
   - {fileID: 1701567614}
+  - {fileID: 1581534661}
