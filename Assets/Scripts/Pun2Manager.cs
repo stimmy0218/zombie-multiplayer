@@ -12,6 +12,7 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
     // 룸 목록 캐시
     Dictionary<string, RoomInfo> cachedRooms = new Dictionary<string, RoomInfo>();
 
+    // 싱글톤
     void Awake()
     {
         if (instance != null && instance != this)
@@ -19,7 +20,6 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
             return;
         }
-
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -28,14 +28,16 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
     public void Init()
     {
         PhotonNetwork.GameVersion = gameVersion;
-        PhotonNetwork.ConnectUsingSettings();   // 마스터 서버 접속 요청
+        PhotonNetwork.ConnectUsingSettings();   // 세팅값으로 마스터 서버 접속
     }
 
+    // 로비 입장
     public void JoinLobby()
     {
         PhotonNetwork.JoinLobby();
     }
 
+    // 닉네임 설정
     public void SetNickname(string nickname)
     {
         PhotonNetwork.NickName = nickname;
@@ -52,7 +54,7 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
         JoinLobby();
     }
 
-    // 로비 입장 완료
+    // 로비 입장 시
     public override void OnJoinedLobby()
     {
         Debug.Log("로비에 입장 했습니다.");
@@ -62,14 +64,13 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
 
         EventDispatcher.instance.SendEvent((int)EventEnums.EventType.OnJoinedLobby);
 
-        // UI에게 현재 방 0개 상태 먼저 알려줌
+        // UI에게 현재 방 0개 상태 알려줌
         EventDispatcher.instance.SendEvent(
-            (int)EventEnums.EventType.OnRoomListUpdate,
-            new List<RoomInfo>()
+            (int)EventEnums.EventType.OnRoomListUpdate,new List<RoomInfo>()
         );
     }
 
-    // 로비에서 방 리스트 변경됨 (증분 리스트)
+    // 로비에서 방 리스트 변경 (증분 리스트)
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // 1) 캐시에 반영
@@ -102,10 +103,10 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log($"OnDisconnected: {cause}");
-        cachedRooms.Clear();
+        cachedRooms.Clear(); // 끊기면 캐시도 비움
     }
 
-    // 내 방에 입장 완료
+    // 내가 방에 입장
     public override void OnJoinedRoom()
     {
         Debug.Log($"OnJoinedRoom : {PhotonNetwork.CurrentRoom.Name}");
@@ -138,20 +139,22 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
         Debug.Log($"[{newPlayer.NickName}]님이 입장 했습니다.");
     }
 
-    // 랜덤 조인 실패 → 방 생성 (필요한 경우에만 사용)
+    // 랜덤 입장 실패 → 방 생성 (필요한 경우에만 사용)
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log($"OnJoinRandomFailed: {returnCode}, {message}");
 
+        // 이름 null이면 자동으로 랜덤 이름의 방이 생성됨
         PhotonNetwork.CreateRoom(
             null,
             new RoomOptions { MaxPlayers = 2 }
         );
     }
 
+    
     public override void OnCreatedRoom()
     {
-        Debug.Log("OnCreatedRoom");
+        Debug.Log("OnCreatedRoom: 방 생성 성공");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -176,7 +179,6 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
     }
 
     // UI에서 호출용 메서드들
-
     public void CreateRoom()
     {
         Debug.Log("방을 만듭니다.");
@@ -185,7 +187,6 @@ public class Pun2Manager : MonoBehaviourPunCallbacks
             new RoomOptions { MaxPlayers = 2 }
         );
     }
-
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();

@@ -11,6 +11,4 @@ public class UIPlayerItem : MonoBehaviour
         nicknameText.text = nickname;
         isMasterClientText.text = isMasterClient.ToString();
     }
-    
-    
 }
