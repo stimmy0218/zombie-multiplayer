@@ -3,7 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class RoomMain : MonoBehaviour
+public class RoomMain : MonoBehaviourPunCallbacks   
 {
     public UIPlayerList uiPlayerList;
 
@@ -17,7 +17,6 @@ public class RoomMain : MonoBehaviour
 
     void Start()
     {
-        // 방이 없는 상태로 이 씬에 들어오는 경우 방어 코드
         if (PhotonNetwork.CurrentRoom == null)
         {
             Debug.LogWarning("RoomMain: 현재 Photon 방이 없습니다.");
@@ -26,44 +25,58 @@ public class RoomMain : MonoBehaviour
 
         Debug.Log($"RoomMain Start / 현재 방: {PhotonNetwork.CurrentRoom.Name}");
         Debug.Log($"플레이어 수: {PhotonNetwork.PlayerList.Length}");
-        
-        // uiPlayerList가 연결 안 되어 있으면 바로 로그 찍고 종료
+
+        RefreshPlayerList();  // 처음 한 번 그리기
+    }
+
+    // ✅ 플레이어 리스트 UI 다시 그리는 함수 (기존 Start 안에 있던 코드 분리만 했다고 생각하면 됨)
+    private void RefreshPlayerList()
+    {
         if (uiPlayerList == null || uiPlayerList.uiPlayerItemPrefab == null)
         {
-            Debug.LogWarning("RoomMain: uiPlayerList 또는 uiPlayerItemPrefab이 설정되지 않았습니다.");
+            Debug.LogWarning("RoomMain: uiPlayerList 또는 uiPlayerItemPrefab 이 할당되지 않았습니다.");
             return;
         }
 
         Transform parent = uiPlayerList.transform;
 
-        // 기존에 남아 있을 수도 있는 자식 UI들 제거 (선택 사항이지만 안전)
+        // 기존 아이템 제거
         for (int i = parent.childCount - 1; i >= 0; i--)
         {
             Destroy(parent.GetChild(i).gameObject);
         }
 
-        // Photon 방에 있는 모든 플레이어에 대해 UI 아이템 생성
+        // 현재 방에 있는 모든 플레이어에 대해 UI 생성
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            // 프리팹 인스턴스 생성 → 부모를 uiPlayerList로
-            GameObject itemObj = Object.Instantiate(uiPlayerList.uiPlayerItemPrefab, parent);
+            GameObject itemObj = Instantiate(uiPlayerList.uiPlayerItemPrefab, parent);
+            UIPlayerItem ui = itemObj.GetComponent<UIPlayerItem>();
 
-            // UI 세팅
-            UIPlayerItem uiItem = itemObj.GetComponent<UIPlayerItem>();
-            if (uiItem != null)
+            if (ui != null)
             {
-                bool isMasterClient = (player.ActorNumber == PhotonNetwork.MasterClient.ActorNumber);
-                uiItem.Setup(player.NickName, isMasterClient);
-            }
-            else
-            {
-                Debug.LogWarning("RoomMain: UIPlayerItem 컴포넌트를 찾을 수 없습니다.");
+                bool isMaster = player.ActorNumber == PhotonNetwork.MasterClient.ActorNumber;
+                ui.Setup(player.NickName, isMaster);
             }
         }
     }
+
+    // ✅ 새로운 플레이어가 들어올 때마다 호출
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log($"RoomMain: [{newPlayer.NickName}] 입장");
+        RefreshPlayerList();
+    }
+
+    // ✅ 플레이어가 나갈 때마다 호출
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log($"RoomMain: [{otherPlayer.NickName}] 퇴장");
+        RefreshPlayerList();
+    }
+}
     
     // void OnJoinedRoomEvent(short eventType)
     // {
     //     Debug.Log($"AddEventListeners: {(EventEnums.EventType)eventType}");
     // }
-}
+
