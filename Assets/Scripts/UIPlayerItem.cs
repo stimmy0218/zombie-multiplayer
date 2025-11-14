@@ -9,6 +9,6 @@ public class UIPlayerItem : MonoBehaviour
     public void Setup(string nickname, bool isMasterClient)
     {
         nicknameText.text = nickname;
-        isMasterClientText.text = isMasterClient ? "방장" : "player";
+        isMasterClientText.text = isMasterClient ? "방장" : "플레이어";
     }
 }
