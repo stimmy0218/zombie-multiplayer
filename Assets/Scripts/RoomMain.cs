@@ -1,19 +1,24 @@
+using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class RoomMain : MonoBehaviourPunCallbacks   
 {
     public UIPlayerList uiPlayerList;
-
-    // void Awake()
-    // {
-    //     // 방 입장 완료
-    //     EventDispatcher.instance.AddEventHandler(
-    //         (int)EventEnums.EventType.OnJoinedRoom, 
-    //         OnJoinedRoomEvent);
-    // }
+    private List<Player> playerList;
+    public Button leaveButton;
+    
+    
+    void Awake()
+    {
+        // // 방 입장 완료
+        // EventDispatcher.instance.AddEventHandler(
+        //     (int)EventEnums.EventType.OnJoinedRoom, 
+        //     OnJoinedRoomEvent);
+    }
 
     void Start()
     {
