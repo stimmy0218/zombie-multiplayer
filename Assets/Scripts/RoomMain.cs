@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,7 +11,9 @@ public class RoomMain : MonoBehaviourPunCallbacks
     public UIPlayerList uiPlayerList;
     private List<Player> playerList;
     public Button leaveButton;
-    
+    public Button readyButton;
+    public Button startButton;
+    public TMP_Text roomNameText;
     
     void Awake()
     {
@@ -22,18 +25,42 @@ public class RoomMain : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        HideReadyStartButton();
+        //playerList.Add(PhotonNetwork.LocalPlayer);
+        
         if (PhotonNetwork.CurrentRoom == null)
         {
             Debug.LogWarning("RoomMain: 현재 Photon 방이 없습니다.");
             return;
         }
-
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         Debug.Log($"RoomMain Start / 현재 방: {PhotonNetwork.CurrentRoom.Name}");
         Debug.Log($"플레이어 수: {PhotonNetwork.PlayerList.Length}");
-
         RefreshPlayerList();  // 처음 한 번 그리기
     }
+    
+    public void HideReadyStartButton()
+    {
+        readyButton.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(false);
+    }
+    
+    void UpdateReadyStartButton()
+    {
+        HideReadyStartButton();
 
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            readyButton.gameObject.SetActive(false);
+            startButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            readyButton.gameObject.SetActive(true);
+            startButton.gameObject.SetActive(false);
+        }
+    }
+    
     // ✅ 플레이어 리스트 UI 다시 그리는 함수 (기존 Start 안에 있던 코드 분리만 했다고 생각하면 됨)
     private void RefreshPlayerList()
     {
@@ -79,9 +106,5 @@ public class RoomMain : MonoBehaviourPunCallbacks
         RefreshPlayerList();
     }
 }
-    
-    // void OnJoinedRoomEvent(short eventType)
-    // {
-    //     Debug.Log($"AddEventListeners: {(EventEnums.EventType)eventType}");
-    // }
+
 

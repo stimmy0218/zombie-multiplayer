@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UILoadingIcon : MonoBehaviour
 {
-    public float speed = 400f;
+    public float speed = 500f;
 
     void Update()
     {

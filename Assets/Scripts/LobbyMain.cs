@@ -1,4 +1,5 @@
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,22 +11,24 @@ public class LobbyMain : MonoBehaviour
     public UIRoomScrollview uiRoomScrollview;
     public Button createRoomButton;
     public Button leaveRoombutton;
-
+    public TMP_InputField roomNameInput;
+    public GameObject uiCreateRoom;
+    
     void Start()
     {
         Debug.Log(PhotonNetwork.LocalPlayer);
-        
         uiRoomScrollview.Init();   // 방 리스트 UI 초기화
         AddEventListeners();       // 포톤 관련 이벤트 구독
-
-        // 마스터 서버 접속 시작
-        ConnectToMasterServer();
+        ConnectToMasterServer();   // 마스터 서버 접속 시작
 
         // 방 생성 버튼
-        createRoomButton.onClick.AddListener(() =>
-        {
-            Pun2Manager.instance.CreateRoom();
-        });
+        createRoomButton.onClick.AddListener(OnClickCreateRoom);
+        
+        // cash 방 생성 버튼
+        // createRoomButton.onClick.AddListener(() =>
+        // {
+        //     Pun2Manager.instance.CreateRoom();
+        // });
 
         // 방 나가기 버튼
         leaveRoombutton.onClick.AddListener(() =>
@@ -46,13 +49,28 @@ public class LobbyMain : MonoBehaviour
                 Pun2Manager.instance.SetNickname(nickname);
 
                 // 닉네임 설정 후 방 리스트 UI 보여주기
-                uiRoomScrollview.Show();
-                createRoomButton.gameObject.SetActive(true);
                 nicknameView.gameObject.SetActive(false);
+                uiRoomScrollview.Show();
+                uiCreateRoom.gameObject.SetActive(true);
             }
         };
     }
 
+    // 방 생성 버튼 클릭 시 실행될 메서드
+    private void OnClickCreateRoom()
+    {
+        // 인풋필드에서 방 이름 읽기
+        string roomName = roomNameInput != null ? roomNameInput.text : string.Empty;
+        
+        // 미입력 막기
+        if (string.IsNullOrEmpty(roomName))
+        {
+            Debug.Log("방 이름 입력");
+            return;
+        }
+        Pun2Manager.instance.CreateRoom(roomName);
+    }
+    
     // 포톤 마스터 서버 연결 요청
     private void ConnectToMasterServer()
     {
