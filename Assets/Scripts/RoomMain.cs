@@ -17,15 +17,14 @@ public class RoomMain : MonoBehaviourPunCallbacks
     
     void Awake()
     {
-        // // 방 입장 완료
+        // 방 입장 완료
         // EventDispatcher.instance.AddEventHandler(
-        //     (int)EventEnums.EventType.OnJoinedRoom, 
-        //     OnJoinedRoomEvent);
+        //     (int)EventEnums.EventType.OnJoinedRoom, OnJoinedRoomEvent);
     }
 
     void Start()
     {
-        HideReadyStartButton();
+        UpdateReadyStartButton();
         //playerList.Add(PhotonNetwork.LocalPlayer);
         
         if (PhotonNetwork.CurrentRoom == null)
@@ -37,6 +36,13 @@ public class RoomMain : MonoBehaviourPunCallbacks
         Debug.Log($"RoomMain Start / 현재 방: {PhotonNetwork.CurrentRoom.Name}");
         Debug.Log($"플레이어 수: {PhotonNetwork.PlayerList.Length}");
         RefreshPlayerList();  // 처음 한 번 그리기
+        
+        // 방 나가기 버튼
+        leaveButton.onClick.AddListener(() =>
+        {
+            Pun2Manager.instance.LeaveRoom();
+        });
+        //SceneManager.LoadScene("Lobby");
     }
     
     public void HideReadyStartButton()
