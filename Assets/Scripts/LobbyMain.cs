@@ -87,7 +87,8 @@ public class LobbyMain : MonoBehaviour
             (short eventType) =>
             {
                 Debug.Log($"AddEventListeners: {(EventEnums.EventType)eventType}");
-                uiLoading.Hide();
+                if (uiLoading != null) 
+                    uiLoading.Hide();
 
                 // 닉네임 없으면 닉네임 입력창 켜기
                 nicknameView.gameObject.SetActive(string.IsNullOrEmpty(PhotonNetwork.NickName));
@@ -99,7 +100,8 @@ public class LobbyMain : MonoBehaviour
             (short eventType) =>
             {
                 Debug.Log($"AddEventListeners: {(EventEnums.EventType)eventType}");
-                uiLoading.Hide();
+                if (uiLoading != null) 
+                    uiLoading.Hide();
 
                 // 이미 닉네임이 있으면 방 리스트 바로 보여줌
                 if (!string.IsNullOrEmpty(PhotonNetwork.NickName))
